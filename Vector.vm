@@ -1,0 +1,241 @@
+function Vector.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+return
+function Vector.zero 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push constant 0
+pop this 1
+push pointer 0
+return
+function Vector.magnitude 0
+push argument 0
+pop pointer 0
+push this 0
+push this 0
+call Vector.fixedMult 2
+push this 1
+push this 1
+call Vector.fixedMult 2
+add
+push constant 100
+call Math.divide 2
+call Math.sqrt 1
+return
+function Vector.set 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push argument 2
+pop this 1
+push constant 0
+return
+function Vector.rotate 1
+push argument 0
+pop pointer 0
+push argument 1
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+pop local 0
+push constant 99
+push this 0
+call Vector.fixedMult 2
+push constant 8
+neg
+push this 1
+call Vector.fixedMult 2
+add
+pop this 0
+push constant 8
+push local 0
+call Vector.fixedMult 2
+push constant 99
+push this 1
+call Vector.fixedMult 2
+add
+pop this 1
+push this 0
+push constant 205
+call Vector.fixedMult 2
+pop this 0
+push this 0
+push constant 50
+call Vector.fixedMult 2
+pop this 0
+push this 1
+push constant 205
+call Vector.fixedMult 2
+pop this 1
+push this 1
+push constant 50
+call Vector.fixedMult 2
+pop this 1
+goto IF_END0
+label IF_FALSE0
+push this 0
+pop local 0
+push constant 99
+push this 0
+call Vector.fixedMult 2
+push constant 8
+push this 1
+call Vector.fixedMult 2
+add
+pop this 0
+push constant 8
+neg
+push local 0
+call Vector.fixedMult 2
+push constant 99
+push this 1
+call Vector.fixedMult 2
+add
+pop this 1
+push this 0
+push constant 205
+call Vector.fixedMult 2
+pop this 0
+push this 0
+push constant 50
+call Vector.fixedMult 2
+pop this 0
+push this 1
+push constant 205
+call Vector.fixedMult 2
+pop this 1
+push this 1
+push constant 50
+call Vector.fixedMult 2
+pop this 1
+label IF_END0
+push constant 0
+return
+function Vector.getX 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Vector.getY 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Vector.rtimes 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 1
+call Math.multiply 2
+push this 1
+push argument 1
+call Math.multiply 2
+call Vector.new 2
+return
+function Vector.times 0
+push argument 0
+pop pointer 0
+push pointer 0
+push this 0
+push argument 1
+call Math.multiply 2
+push this 1
+push argument 1
+call Math.multiply 2
+call Vector.set 3
+pop temp 0
+push constant 0
+return
+function Vector.fixedScale 0
+push argument 0
+pop pointer 0
+push pointer 0
+push this 0
+push argument 1
+call Vector.fixedMult 2
+push this 1
+push argument 1
+call Vector.fixedMult 2
+call Vector.set 3
+pop temp 0
+push constant 0
+return
+function Vector.divide 0
+push argument 0
+pop pointer 0
+push pointer 0
+push this 0
+push argument 1
+call Math.divide 2
+push this 1
+push argument 1
+call Math.divide 2
+call Vector.set 3
+pop temp 0
+push constant 0
+return
+function Vector.fixedMult 0
+push argument 0
+push argument 1
+push argument 1
+push constant 100
+call Vector.mod 2
+sub
+push constant 100
+call Math.divide 2
+call Math.multiply 2
+push argument 0
+push argument 1
+push constant 100
+call Vector.mod 2
+push constant 10
+call Math.divide 2
+call Math.multiply 2
+push constant 10
+call Math.divide 2
+add
+push argument 0
+push argument 1
+push constant 10
+call Vector.mod 2
+call Math.multiply 2
+push constant 100
+call Math.divide 2
+add
+return
+function Vector.fixedDiv 0
+push argument 0
+push constant 100
+call Math.multiply 2
+push argument 1
+call Math.divide 2
+return
+function Vector.mod 0
+push argument 0
+push argument 0
+push argument 1
+call Math.divide 2
+push argument 1
+call Math.multiply 2
+sub
+return
+function Vector.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

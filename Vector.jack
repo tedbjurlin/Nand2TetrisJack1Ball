@@ -1,0 +1,93 @@
+class Vector{
+    field int x, y;
+
+    constructor Vector new(int inx, int iny) {
+        let x = inx;
+        let y = iny;
+        return this;
+    }
+
+    constructor Vector zero() {
+        let x = 0;
+        let y = 0;
+        return this;
+    }
+
+    method Fraction magnitude() {
+        return Math.sqrt((Vector.fixedMult(x, x) + Vector.fixedMult(y, y)) / 100);
+    }
+
+    method void set(int sx, int sy) {
+        let x = sx;
+        let y = sy;
+        return;
+    }
+
+    method void rotate(bool left) {
+        var int temp;
+        if (left) {
+            let temp = x;
+            let x = Vector.fixedMult(99, x) + Vector.fixedMult(-8, y);
+            let y = Vector.fixedMult(8, temp) + Vector.fixedMult(99, y);
+            let x = Vector.fixedMult(x, 205);
+            let x = Vector.fixedMult(x, 50);
+            let y = Vector.fixedMult(y, 205);
+            let y = Vector.fixedMult(y, 50);
+        } else {
+            let temp = x;
+            let x = Vector.fixedMult(99, x) + Vector.fixedMult(8, y);
+            let y = Vector.fixedMult(-8, temp) + Vector.fixedMult(99, y);
+            let x = Vector.fixedMult(x, 205);
+            let x = Vector.fixedMult(x, 50);
+            let y = Vector.fixedMult(y, 205);
+            let y = Vector.fixedMult(y, 50);
+        }
+        return;
+    }
+
+    method int getX() {
+        return x;
+    }
+
+    method int getY() {
+        return y;
+    }
+
+    method Vector rtimes(int scalar) {
+        return Vector.new(x * scalar, y * scalar);
+    }
+
+    method void times(int scalar) {
+        do set(x * scalar, y * scalar);
+        return;
+    }
+
+    method void fixedScale(int scalar) {
+        do set(Vector.fixedMult(x, scalar), Vector.fixedMult(y, scalar));
+        return;
+    }
+
+    method void divide(int scalar) {
+        do set(x / scalar, y / scalar);
+        return;
+    }
+
+    function int fixedMult(int x, int y) {
+        return (x * ((y - Vector.mod(y, 100)) / 100))
+            + ((x * (Vector.mod(y, 100) / 10)) / 10)
+            + ((x * Vector.mod(y, 10)) / 100);
+    }
+
+    function int fixedDiv(int x, int y) {
+        return (x * 100) / y;
+    }
+
+    function int mod(int a, int q) {
+        return a - ((a / q) * q);
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

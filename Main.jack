@@ -1,0 +1,124 @@
+class Main {
+
+    function void main () {
+        var int friction, speed, count, trigger;
+        var Vector power;
+        var CueBall ball;
+        var Cue cue;
+
+        let ball = CueBall.new();
+        let speed = ball.speed();
+        let power = Vector.zero();
+        let friction = 97;
+        let count = 0;
+        let cue = Cue.new();
+        let trigger = 0;
+        do Main.drawAll(ball, cue, true);
+
+        while (true) {
+            let speed = ball.speed();
+            if (speed > 1) {
+                let trigger = 0;
+                let count = count + 1;
+                do ball.step(friction, count);
+                do Main.collide(ball);
+                do Main.drawAll(ball, cue, false);
+            } else {
+                do power.dispose();
+                let power = Vector.zero();
+                
+                if (Keyboard.keyPressed() = 130) {
+                    do cue.rotateLeft();
+                    do ball.setVelocity(power);
+                    do Main.drawAll(ball, cue, true);
+                } else {
+                    if (Keyboard.keyPressed() = 132) {
+                        do cue.rotateRight();
+                        do ball.setVelocity(power);
+                        do Main.drawAll(ball, cue, true);
+                    } else {
+                        if (Keyboard.keyPressed() = 32) {
+                            let trigger = trigger + 1;
+                            if (Vector.mod(trigger, 10) = 0) {
+                                do cue.drawBack();
+                                do ball.setVelocity(power);
+                                do Main.drawAll(ball, cue, true);
+                            }
+                        } else {
+                            if (trigger > 0) {
+                                do power.dispose();
+                                let power = cue.release();
+                                let trigger = 0;
+                                do ball.setVelocity(power);
+                                do Main.drawAll(ball, cue, true);
+                            }
+                        }
+                    }
+                }
+                
+            }
+            do Sys.wait(5);
+        }
+        return;
+    }
+
+    function void collide(CueBall ball) {
+        if ((ball.getX() < 72) | (ball.getX() > 440)) {
+            do ball.bounceX();
+        }
+        if ((ball.getY() < 40) | (ball.getY() > 216)) {
+            do ball.bounceY();
+        }
+        if (((ball.getX() < 79) & (ball.getY() < 47))
+            | ((ball.getX() < 79) & (ball.getY() > 209))
+            | ((ball.getX() > 250) & (ball.getX() < 262) & (ball.getY() < 47))
+            | ((ball.getX() > 250) & (ball.getX() < 262) & (ball.getY() > 209))
+            | ((ball.getX() > 433) & (ball.getY() < 47))
+            | ((ball.getX() > 433) & (ball.getY() > 209))) {
+            do ball.reset();
+        }
+
+        return;
+    }
+
+    function void drawAll(CueBall ball, Cue cue, bool drawCue) {
+        var String print;
+        do Screen.clearScreen();
+        do Main.drawBoard();
+        if (drawCue) {
+            do cue.draw(ball.getX(), ball.getY());
+        }
+        do ball.draw();
+        do Output.moveCursor(1, 28);
+        let print = "Pool Demo";
+        do Output.printString(print);
+        do print.dispose();
+        do Output.moveCursor(22, 5);
+        let print = "Left: Counterclockwise  Space: Shoot  Right: Clockwise";
+        do Output.printString(print);
+        do print.dispose();
+        return;
+    }
+
+    function void drawBoard() {
+        do Screen.setColor(true);
+        do Screen.drawLine(64, 32, 64, 224);
+        do Screen.drawLine(64, 32, 448, 32);
+        do Screen.drawLine(448, 32, 448, 224);
+        do Screen.drawLine(64, 224, 448, 224);
+
+        do Screen.drawCircle(64, 32, 10);
+        do Screen.drawCircle(64, 224, 10);
+        do Screen.drawCircle(256, 32, 10);
+        do Screen.drawCircle(256, 224, 10);
+        do Screen.drawCircle(448, 32, 10);
+        do Screen.drawCircle(448, 224, 10);
+
+        do Screen.setColor(false);
+        do Screen.drawRectangle(53, 21, 63, 235);
+        do Screen.drawRectangle(53, 21, 459, 31);
+        do Screen.drawRectangle(449, 21, 459, 235);
+        do Screen.drawRectangle(53, 225, 459, 235);
+        return;
+    }
+}

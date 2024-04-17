@@ -1,0 +1,69 @@
+class CueBall {
+    field int x, y;
+    field Vector velocity;
+
+    constructor CueBall new() {
+        let x = 160;
+        let y = 128;
+        let velocity = Vector.zero();
+        return this;
+    }
+
+    method int getX() {
+        return x;
+    }
+
+    method int getY() {
+        return y;
+    }
+
+    method void bounceX() {
+        do velocity.set(-velocity.getX(), velocity.getY());
+        return;
+    }
+
+    method void bounceY() {
+        do velocity.set(velocity.getX(), -velocity.getY());
+        return;
+    }
+
+    method void reset() {
+        let x = 160;
+        let y = 128;
+        do velocity.set(0, 0);
+        return;
+    }
+
+    method int speed() {
+        return velocity.magnitude();
+    }
+
+    method void setVelocity(Vector vel) {
+        do velocity.set(vel.getX(), vel.getY());
+        return;
+    }
+
+    method void step(int friction, int count) {
+        var Vector temp;
+        var int scalar, mag, tempx, tempy;
+        let x = x + (velocity.getX() / 200);
+        let y = y + (velocity.getY() / 200);
+        let tempx = velocity.getX() / 200;
+        let tempy = velocity.getY() / 200;
+        if ((Vector.mod(count, 5) = 0) & count > 0) {
+            do velocity.fixedScale(friction);
+            if ((((velocity.getX() / 200) = 0) & (Math.abs(tempx) > 0)) | (((velocity.getY() / 200) = 0) & (Math.abs(tempy) > 0))) {
+                do velocity.set(0, 0);
+            }
+        }
+        return;
+    }
+
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x, y, 8);
+        do Screen.setColor(false);
+        do Screen.drawCircle(x, y, 7);
+        return;
+    }
+}

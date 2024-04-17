@@ -1,0 +1,44 @@
+class Cue {
+    field int power;
+    field Vector direction;
+
+    constructor Cue new() {
+        let power = 1;
+        let direction = Vector.new(0, 100);
+        return this;
+    }
+
+    method Vector release() {
+        var Vector ret;
+        let ret = direction.rtimes(power);
+        let power = 1;
+        do direction.set(0, 100);
+        return ret;
+    }
+
+    method void rotateLeft() {
+        do direction.rotate(false);
+        return;
+    }
+
+    method void rotateRight() {
+        do direction.rotate(true);
+        return;
+    }
+
+    method void drawBack() {
+        if (power < 11) {
+            let power = power + 1;
+        }
+        return;
+    }
+
+    method void draw(Fraction x, Fraction y) {
+        var Vector d;
+        let d = direction.rtimes(power + 3);
+        do Screen.setColor(true);
+        do Screen.drawLine(x, y, x + (d.getX() / 40), y + (d.getY() / 40));
+        do d.dispose();
+        return;
+    }
+}
